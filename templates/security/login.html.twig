@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <form method="post" class="border p-4 rounded shadow-sm bg-light">
+                {% if error %}
+                    <div class="alert alert-danger text-center">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="alert alert-info text-center mb-3">
+                        Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
+                        <a href="{{ path('app_logout') }}" class="text-decoration-none">Se déconnecter</a>
+                    </div>
+                {% endif %}
+
+                <h1 class="h4 text-center mb-4">Connectez-vous</h1>
+
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        value="{{ last_username }}" 
+                        name="email" 
+                        id="inputEmail" 
+                        class="form-control" 
+                        placeholder="Entrez votre email" 
+                        autocomplete="email" 
+                        required 
+                        autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Mot de passe</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="inputPassword" 
+                        class="form-control" 
+                        placeholder="Entrez votre mot de passe" 
+                        autocomplete="current-password" 
+                        required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg" type="submit">
+                        Se connecter
+                    </button>
+                </div>
+            </form>
+
+            <!-- Lien vers la page d'inscription -->
+            <div class="mt-3 text-center">
+                <p>Pas encore de compte ? <a href="{{ path('app_register') }}" class="text-decoration-none">S'inscrire ici</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
