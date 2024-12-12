@@ -1,15 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PublicController!{% endblock %}
+{% block title %}Page publique{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container py-5">
+    <!-- Navigation sous forme de navbar -->
+    <nav class="navbar navbar-light bg-light mb-4">
+        <div class="container">
+            <button class="btn btn-secondary" onclick="showPage('index')">Page d'accueil</button>
+            <button class="btn btn-secondary" onclick="showPage('page2')">Page 2</button>
+            <button class="btn btn-secondary" onclick="showPage('admin')">Page Admin(Non Sécurisé)</button>
+            <a href="/admin" class="btn btn-danger">Page Admin </a>
+           {% if app.user %}
+    <a href="{{ path('app_logout') }}" class="btn btn-danger text-decoration-none">Se déconnecter</a>
+{% else %}
+    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+{% endif %}
 
-<div class="example-wrapper">
-    <h1>{{ message }}</h1>
-    <a href="{{ path('app_admin') }}">Accéder à la page admin</a>
+        </div>
+    </nav>
+
+    <!-- Pages dynamiques -->
+    <div id="index" class="page-content">
+        <h2 class="text-center">Bienvenue sur mon site</h2>
+        <p class="text-center">Ceci est la page d'accueil de mon site. Utilisez les boutons pour naviguer vers d'autres pages.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt cursus mi, vel scelerisque libero malesuada eu. Etiam sagittis efficitur ultricies. Fusce ultricies ut orci id dictum. Curabitur non est ultricies, euismod arcu et, elementum dui. Mauris a dictum orci. Pellentesque fermentum, felis et tempus iaculis, eros augue tempor orci, a luctus purus nulla eget felis. Integer lacinia lectus et libero suscipit, a vehicula libero maximus.</p>
+    </div>
+
+    <div id="page2" class="page-content" style="display: none;">
+        <h2 class="text-center">Informations données à tout le monde</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non justo eu mi interdum maximus. Ut pellentesque diam sit amet mi egestas, a ullamcorper elit aliquet. Nam sit amet risus non libero consequat feugiat. Fusce eu metus vel erat pharetra tristique eu vel tortor. Morbi efficitur ipsum vitae orci vehicula, sed sollicitudin nisl vehicula. Etiam a tempor ante. Aliquam erat volutpat. Nullam feugiat sollicitudin metus, et ultricies augue venenatis non. Donec ac augue ut leo sollicitudin rutrum non in nulla.</p>
+    </div>
+
+    <div id="admin" class="page-content" style="display: none;">
+        <h2 class="text-center">Page Admin Non Sécurisée</h2>
+        <p>Bienvenue sur la page d'administration non sécurisée. Cette page est accessible à tout le monde et contient des données sensibles !!!</p>
+        
+        <h3>Informations de l'Admin</h3>
+        <ul>
+            <li><strong>Nom :</strong> Léo Germain</li>
+            <li><strong>Email :</strong> leo@gmail.com</li>
+            <li><strong>Rôle :</strong> Administrateur</li>
+            <li><strong>Mot de passe :</strong> leo</li>
+        </ul>
+        
+        <h3>Activité récente</h3>
+        <ul>
+            <li><strong>25 Décembre 2024 :</strong> Nouvelle mise à jour du site</li>
+            <li><strong>18 Décembre 2024 :</strong> Correction de bugs critiques</li>
+            <li><strong>5 Décembre 2024 :</strong> Amélioration de la sécurité du site</li>
+        </ul>
+
+        <h3>Statistiques du site</h3>
+        <p><strong>Visiteurs du mois :</strong> 2,345</p>
+        <p><strong>Pages vues :</strong> 14,567</p>
+        <p><strong>Utilisateurs enregistrés :</strong> 1,234</p>
+
+        <h3>Contrôles d'administration</h3>
+        <p>Cliquez sur les options ci-dessous pour effectuer des actions administratives :</p>
+        <button class="btn btn-warning">Modifier les paramètres du site</button>
+        <button class="btn btn-info">Voir les rapports utilisateurs</button>
+        <button class="btn btn-danger">Supprimer les données</button>
+    </div>
 </div>
+
+<script>
+    // Fonction pour afficher la page sélectionnée et masquer les autres
+    function showPage(pageId) {
+        // Masquer toutes les pages
+        const pages = document.querySelectorAll('.page-content');
+        pages.forEach(function(page) {
+            page.style.display = 'none';
+        });
+        
+        // Afficher la page correspondante
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            pageToShow.style.display = 'block';
+        }
+    }
+
+    // Afficher la page d'index par défaut
+    showPage('index');
+</script>
 {% endblock %}
